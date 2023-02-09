@@ -22,7 +22,7 @@ O       L
     S
 
     Exemplo:
-    #Testando motor
+    >>> # Testando motor
     >>> motor = Motor()
     >>> motor.velocidade
     0
@@ -41,7 +41,7 @@ O       L
     >>> motor.frear()
     >>> motor.velocidade
     0
-    #Testando Direcao
+    >>> # Testando Direcao
     >>> direcao = Direcao()
     >>> direcao.valor
     'Norte'
@@ -93,3 +93,49 @@ O       L
     >>> carro.calcular_direcao()
     'Oeste'
 """
+
+
+class Motor:
+    def __init__(self):
+        self.velocidade = 0
+
+    def acelerar(self):
+        self.velocidade += 1
+
+    def frear(self):
+        self.velocidade -= 2
+        self.velocidade = max(0, self.velocidade)
+
+
+NORTE = 'Norte'
+LESTE = 'Leste'
+SUL = 'Sul'
+OESTE = 'Oeste'
+
+
+class Direcao:
+    rotacao_a_esquerda_dct = {NORTE: OESTE, OESTE: SUL, SUL: LESTE, LESTE: NORTE}
+
+    def __init__(self):
+        self.valor = NORTE
+
+    def girar_a_direita(self):
+        if self.valor == NORTE:
+            self.valor = LESTE
+        elif self.valor == LESTE:
+            self.valor = SUL
+        elif self.valor == SUL:
+            self.valor = OESTE
+        elif self.valor == OESTE:
+            self.valor = NORTE
+
+    def girar_a_esquerda(self):
+        self.valor = self.rotacao_a_esquerda_dct[self.valor]
+
+
+class Carro(Direcao, Motor):
+    def calcular_velocidade(self):
+        return self.velocidade
+
+    def calcular_direcao(self):
+        return self.valor
